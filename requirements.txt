@@ -1,0 +1,9 @@
+tqdm==4.19.9
+scanpy==1.7.2
+scIB     
+scib
+fbpca
+annoy
+pdb
+psutil
+geosketch
