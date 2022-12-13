@@ -13,9 +13,13 @@ All datasets used in our paper can be found in [`zenodo`](https://zenodo.org/rec
 
 Data source:
 Pancreas, PBMC, MouseCellAtlas [`link`](https://github.com/JinmiaoChenLab/Batch-effect-removal-benchmarking/tree/master/Data)
-Muris: [`link`]https://drive.google.com/uc?id=17ou8nVfrTYXJhA_a-OJOEm03zfbfBgxH
+
+Muris: [`link`](https://drive.google.com/uc?id=17ou8nVfrTYXJhA_a-OJOEm03zfbfBgxH)
+
 ImmHuman, Lung: [`link`](https://github.com/theislab/scib-reproducibility)
+
 Neocortex: [`link`](https://github.com/jaydu1/VITAE/tree/master/data)
+
 PBMCMultome: [`link`](https://support.10xgenomics.com/single-cell-multiome-atac-gex/datasets/1.0.0/pbmc_granulocyte_sorted_10k)
 
 ## Tutorial
