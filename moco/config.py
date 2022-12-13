@@ -2,8 +2,8 @@ import numpy as np
 
 class Config(object):
     # data directory root
-    data_root = '../data'
-    out_root  = '../outputs'
+    data_root = '/home/yxh/gitrepo/Batch-effect-removal-benchmarking-master/Script/sapling/GLOBE/data'
+    out_root  = '/home/yxh/gitrepo/clMining/CLAIRE-release/outputs'
 
     # model configs
     n_hvgs = in_dim = 2000  # n_hvgs

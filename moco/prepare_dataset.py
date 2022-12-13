@@ -390,6 +390,31 @@ def prepare_Neo(data_root):
     df_meta.iloc[:10261, -1] = 'Batch_A'     
     return X, gene_name, cell_name, df_meta
 
+def prepare_PBMCMultome(data_root):
+    label_key = 'seurat_annotations'
+
+    adata_rna = sc.read_h5ad(join(data_root, 'RNA/adata_rna.h5ad'))
+    adata_atac = sc.read_h5ad(join(data_root, 'ATAC_GAM/adata_atac_gam.h5ad'))
+
+    share_gene = np.intersect1d(adata_rna.var_names, adata_atac.var_names)
+    adata_rna = adata_rna[:, share_gene]
+    adata_atac = adata_atac[:, share_gene]
+
+    X = sps.vstack([adata_rna.X, adata_atac.X]).T
+    X = sps.csr_matrix(X)
+
+    meta1 = pd.read_csv(join(data_root, 'metadata.csv'), index_col=0)
+    meta1[configs.label_key] = meta1[label_key]
+    meta1[configs.batch_key] = 'RNA'
+    meta2 = meta1.copy()
+    meta2[configs.batch_key] = 'ATAC'
+
+    meta1.index = [f'{_}_reference' for _ in meta1.index] 
+    meta2.index = [f'{_}_query' for _ in meta2.index]
+    meta = pd.concat([meta1, meta2])
+
+    cname = np.array(meta.index)
+    return X, share_gene, cname, meta
 
 
 def prepare_dataset(data_dir):
@@ -411,15 +436,12 @@ def prepare_dataset(data_dir):
                     'Muris_30000': prepare_Muris_30000,
                     'Muris_60000': prepare_Muris_60000,
                     'Muris_120000': prepare_Muris_120000,
+                    'PBMCMultome': prepare_PBMCMultome,
                     # 'Simuation2': prepare_Simulation2
     }
 
     # dataset 3 
     return func_dict.get(dataset_name, prepare_Simulation)(data_dir)
-
-    # dataset 3 
-    return func_dict.get(dataset_name, prepare_Simulation)(data_dir)
-
 
 
 

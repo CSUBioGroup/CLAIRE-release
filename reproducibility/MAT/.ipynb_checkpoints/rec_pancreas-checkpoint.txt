@@ -1,0 +1,19 @@
+... storing 'batch' as categorical
+... storing 'celltype_orig' as categorical
+... storing 'celltype' as categorical
+Welcome to MAT2!
+The reading cost time 0.0411 secs
+preprocessing dataset, shape=(15558, 14767)
+========Unsupervised training========
+training params  0.001 0
+
+
+
+Training finish!
+
+/home/yxh/.local/lib/python3.6/site-packages/pandas/core/indexing.py:670: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  iloc._setitem_with_indexer(indexer, value)
+training params  0.001 10

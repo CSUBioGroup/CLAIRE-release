@@ -147,3 +147,40 @@ def sc_prep(data, metadata, scale=False, n_neighbors=15, n_pcs=50, umap=True):
         sc.tl.umap(adata)
     
     return adata
+
+from scanorama import assemble
+def integrate_gene(integrated_emb, raw_X, metadata, gname, 
+                   scale=False, batch_key='batchlb', label_key='CellType',
+                   knn=10, sigma=20, alpha=0.1):
+
+    adata_raw = sc.AnnData(raw_X)
+    adata_raw.obs = metadata.copy()
+    adata_raw.var_names = gname
+
+    # split batches 
+    batch_vect = adata_raw.obs[batch_key].values
+    batch_set = np.unique(batch_vect)
+
+    # create inputs for scanorama
+    datasets_dimred, datasets, metas = [], [], []
+    for bi in batch_set:
+        idx = batch_vect == bi
+
+        datasets_dimred.append(integrated_emb[idx].copy())
+        
+        adata_bi = adata_raw[idx].copy()
+        if scale:
+            sc.pp.scale(adata_bi)
+        datasets.append(sps.csr_matrix(adata_bi.X))  # sparse matrix is required
+
+        metas.append(adata_bi.obs)
+        
+    datasets_dimred = assemble(
+            datasets_dimred, # Assemble in low dimensional space.
+            expr_datasets=datasets, # Modified in place.
+            verbose=False, knn=knn, sigma=sigma, approx=True,
+            alpha=alpha, ds_names=None, batch_size=None,
+    )
+    
+    integrated_gene_matrix = sps.vstack(datasets)
+    return integrated_gene_matrix

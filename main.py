@@ -53,7 +53,6 @@ sane_ps += f'anc-schedl={args.anchor_schedule}_filter={args.fltr}_yita={args.yit
 sane_ps += f'eps={args.epochs}_lr={args.lr}_batch-size={args.batch_size}_'   # training params
 sane_ps += f'adjustLr={args.adjustLr}_schedule={args.schedule}'             # training params
 
-
 log_dir = join(configs.out_root, f'{args.dname}/{sane_ps}')
 os.makedirs(log_dir, exist_ok=True)
 
@@ -189,7 +188,9 @@ for ri in range(args.n_repeat):
         print(f'=====================> {idx}')
         
         sc.pl.umap(tmp_emb[idx], color=[configs.batch_key], show=False, ax=axes[i, 0])
-        sc.pl.umap(tmp_emb[idx], color=[configs.label_key], show=False, ax=axes[i, 1])
+
+        label_key = configs.label_key if configs.label_key in tmp_emb[idx].columns else configs.batch_key
+        sc.pl.umap(tmp_emb[idx], color=[label_key], show=False, ax=axes[i, 1])
         
         axes[i, 0].set_title(f'epoch={idx}')
         axes[i, 1].set_title(f'epoch={idx}')
