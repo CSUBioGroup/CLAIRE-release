@@ -416,6 +416,33 @@ def prepare_PBMCMultome(data_root):
     cname = np.array(meta.index)
     return X, share_gene, cname, meta
 
+def prepare_NewDataset(data_root):  
+    '''
+      return:
+         X:         scipy.sparse.csr_matrix, row = feature, column = cell
+         gene_name: array of feature (gene) names
+         cell_name: array of cell (barcodes) names
+         df_meta:   metadata of dataset, columns include 'batchlb'(batch column), 'CellType'(optional)
+    '''
+    # =========== 
+    # example
+
+    # batch_key = 'batch'
+    # label_key = 'final_annotation'
+
+    # adata = sc.read_h5ad(join(data_root, 'Immune_ALL_human.h5ad'))  # read ImmHuman dataset
+    # X = sps.csr_matrix(adata.layers['counts'].T)  # gene by cell
+
+    # gene_name = adata.var_names.values
+    # cell_name = adata.obs_names.values
+    # df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    # df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    # df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    # return X, gene_name, cell_name, df_meta
+    # ===========
+
 
 def prepare_dataset(data_dir):
     dataset_name = data_dir.split('/')[-1]
@@ -437,7 +464,7 @@ def prepare_dataset(data_dir):
                     'Muris_60000': prepare_Muris_60000,
                     'Muris_120000': prepare_Muris_120000,
                     'PBMCMultome': prepare_PBMCMultome,
-                    # 'Simuation2': prepare_Simulation2
+                    'new_dataset': prepare_NewDataset
     }
 
     # dataset 3 
