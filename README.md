@@ -12,7 +12,8 @@ pip install -r requirements.txt
 All datasets used in our paper can be found in [`zenodo`](https://zenodo.org/record/7136754)
 
 Data source:
-Pancreas, PBMC, MouseCellAtlas [`link`](https://github.com/JinmiaoChenLab/Batch-effect-removal-benchmarking/tree/master/Data)
+
+Pancreas, PBMC, MouseCellAtlas: [`link`](https://github.com/JinmiaoChenLab/Batch-effect-removal-benchmarking/tree/master/Data)
 
 Muris: [`link`](https://drive.google.com/uc?id=17ou8nVfrTYXJhA_a-OJOEm03zfbfBgxH)
 
@@ -38,7 +39,7 @@ Following is instructions about how to use CLAIRE for new datasets:
 ### 1. Preparing data
 Data folder structure:
 
-`
+```latex
 |-- data
 |   |-- Pancreas
 |   |   |-- data.mtx
@@ -53,9 +54,9 @@ Data folder structure:
 |   |-- new_dataset
 |   |   |-- ...
 ...
-`
+```
 
-Assume that the new dataset is saved in the 'new_dataset' folder. Modify `prepare_NewDataset` function in [`prepare_dataset.py'`](./moco/prepare_dataset.py)
+Assume that the new dataset is saved in the 'new_dataset' folder. Modify `prepare_NewDataset` function in [`prepare_dataset.py`](./moco/prepare_dataset.py#L419)
 
 ```Python
 def prepare_NewDataset(data_root):  
@@ -86,18 +87,23 @@ def prepare_NewDataset(data_root):
    # ===========
 ```
 
-Then, modify the last key of dictionary in [`prepare_dataset`](./moco/prepare_dataset.py) function. Under our assumption, the last key should be 'new_dataset'.
+Then, modify the last key of dictionary in [`prepare_dataset`](./moco/prepare_dataset.py#L467) function. Under our assumption, the last key should be 'new_dataset'.
 
 ### 2. Compute Mutual Nearest neighbors (MNNs) between batches
 We provide two approaches to obtain MNNs. 
 1. (Recommended) Follow the pipeline in [`find_anchors.R`](./moco/find_anchors.R)
+
    a) read data into `expr_mat` and `metadata`
+
    b) input `expr_mat` and `metadat` into `find_anchors` function
+
    c) MNNs will be exported as a csv file and place the exported file in the 'new_dataset' folder.
 
-2. Compute anchors in python [`computeAnchors`](./moco/sNNs.py) (CCA + MNN)
-   a) Uncomment line 79 in [`dataset.py`]('./moco/dataset.py') or Uncomment line 80 in [`dataset_optim.py`]('./moco/dataset_optim.py')
-   b) comment out line 82 in [`dataset.py`]('./moco/dataset.py') or comment out line 83 in [`dataset_optim.py`]('./moco/dataset_optim.py')
+2. Compute anchors in python [`computeAnchors`](./moco/sNNs.py#L317) (CCA + MNN)
+
+   a) Uncomment line 80 in [`dataset.py`](./moco/dataset.py#L80) or uncomment line 80 in [`dataset_optim.py`](./moco/dataset_optim.py#L80)
+   
+   b) comment out line 83 in [`dataset.py`](./moco/dataset.py#L83) or comment out line 83 in [`dataset_optim.py`](./moco/dataset_optim.py#L83)
 
 ### 3. Run CLAIRE
 run the following command in terminal:
@@ -133,7 +139,7 @@ main_optim.py and main.py produce similar results but main_optim.py runs twice a
 
 ### 4. Output
 The output will be saved in `outputs/new_dataset` folder. Output structure:
-`
+```latex
 |-- outputs
 |   |-- new_dataset
 |   |   |-- parameter_setting
@@ -151,7 +157,7 @@ The output will be saved in `outputs/new_dataset` folder. Output structure:
 |   |   |   |-- results2
 |   |   |   |-- weights2
 ...
-`
+```
 
 where weights1 saves trained model weights and result1 saves integrated low-dimensional embeddings in a AnnData object. Results2 and weights2 indicate repeated experiment.
 
@@ -191,7 +197,7 @@ If cellular heterogeneity is ambiguous, we recommend:
 ## Note
 
 There are several versions of [`scib`](https://github.com/theislab/scib), the package used to evaluate batch correction methods. We used the older version of scib (package: scIB), if you install the latest version, please change the following line in eval.py:
-```
+```Python
 from moco.evaluation_scib_oldVersion import scib_process
 ====>
 from moco.evaluation_scib import scib_process
