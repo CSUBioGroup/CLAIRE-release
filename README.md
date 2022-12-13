@@ -9,7 +9,7 @@ pip install -r requirements.txt
 ```
 
 ## Datasets
-All datasets used in our paper can be found in [`zenodo`](https://zenodo.org/record/7136754)
+All datasets used in our paper can be found in [`zenodo`](https://zenodo.org/record/7431624)
 
 Data source:
 
@@ -204,4 +204,4 @@ from moco.evaluation_scib import scib_process
 ``` 
 
 ## Results for a quick overview 
-We released our outputs and results in [`zenodo`](https://zenodo.org/record/7136754). For a quick overview on the outputs, please visit [`plot_res.ipynb`](plot_res.ipynb)
+We released our outputs and results in [`zenodo`](https://zenodo.org/record/7431624). For a quick overview on the outputs, please visit [`plot_res.ipynb`](plot_res.ipynb)
